@@ -9,7 +9,7 @@ The purpose of this project is to get familiar with the floating-point represent
 
 ## Problem specification
 
-`tinyfp` is a simplified 8-bit floating-point representation that follows the IEEE 754 standard for floating-point arithmetic. The overall structure of the `tinyfp` representation is shown below. The MSB (Most Significant Bit) is used as a sign bit (`S`). The next three bits are used for exponents (`E`) with a bias value of 3. The last four bits are used for the fractional part (`F`).
+`tinyfp` is a simplified 8-bit floating-point representation that follows the IEEE 754 standard for floating-point arithmetic. The overall structure of the `tinyfp` representation is shown below. The MSB (Most Significant Bit) is used as a sign bit (`S`). The next three bits are used for exponent (`E`) with a bias value of 3. The last four bits are used for the fractional part (`F`).
 
 ```
 bit 7  6  5  4  3  2  1  0
