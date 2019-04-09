@@ -22,7 +22,7 @@ tinyfp fixp2tinyfp(fixp f)
 
 
 
-	return 9;
+	return 9999;
 }
 
 
