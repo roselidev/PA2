@@ -38,8 +38,9 @@ tinyfp fixp2tinyfp(fixp f)
   int E=0;
   //    infinite zone
   if(tmp>=16){
+    ans = 0b1110000;
     if(minus){ans+=1<<7;}
-    ans = ans | 0b01110000;return ans;
+    return ans;
   }
   //    normalize zone
   else if(tmp>=8)E=3;
