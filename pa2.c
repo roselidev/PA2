@@ -174,7 +174,7 @@ tinyfp float2tinyfp(float f)
   int Gbit= (frac>>Gbitindex) & 1;
   int Rbit= (frac>>(Gbitindex-1)) & 1;
   int Sbit= (frac & (0x0003ffff));
-  int exp =( F.bit>>(Gbitindex+4));
+  int exp =(F.bit>>(Gbitindex+4));
     
   if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
     F.bit += (1<<Gbitindex);}
@@ -206,7 +206,7 @@ tinyfp float2tinyfp(float f)
 
     if((Rbit != 0 && Sbit !=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
       frac+=(1<<Gbitindex);
-      if(frac & (1<<(Gbitindex+4))){
+      if(frac & (1<<(Gbitindex+5))){
         ans+=(1<<4);
       }
     }
