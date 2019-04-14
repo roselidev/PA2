@@ -68,7 +68,8 @@ tinyfp fixp2tinyfp(fixp f)
   //  Round up condition
   if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
     f += 1<<(GbitIndex);
-    if(f & (1<<(11+E))){E++;if(denorm){denorm=0;}GbitIndex++;}//If carry occurs, renormalize
+    if(denorm){E--;}
+    if(f & (1<<(11+E))){E++;if(denorm){denorm=0;GbitIndex--;}GbitIndex++;}//If carry occurs, renormalize
     if(E>3){ans = 0b01110000; if(minus) ans+=(1<<7); return ans;}//check infinity
   }
 
