@@ -206,7 +206,7 @@ tinyfp float2tinyfp(float f)
 
     if((Rbit != 0 && Sbit !=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
       frac+=(1<<Gbitindex);
-      if(frac & (1<<(Gbitindex+5))){
+      if(exp==124 && (frac & (1<<(Gbitindex+4)))){
         ans+=(1<<4);
       }
     }
