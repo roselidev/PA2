@@ -39,7 +39,7 @@ tinyfp fixp2tinyfp(fixp f)
   //    infinite zone
   if(tmp>=16){
     ans = 0b1110000;
-    if(minus){ans+=1<<7;}
+    if(minus){ans+=(1<<7);}
     return ans;
   }
   //    normalize zone
@@ -61,15 +61,15 @@ tinyfp fixp2tinyfp(fixp f)
   //
  
   //  get GRS bit values
-  int Gbit = f & 1<<(6+E);
-  int Rbit = f & 1<<(5+E);
-  int Sbit = f & ((1<<(5+E))-1);
-  
+  int GbitIndex = (6+E);
+  int Gbit = f & 1<<GbitIndex;
+  int Rbit = f & 1<<(GbitIndex-1);
+  int Sbit = f & ((1<<(GbitIndex-1))-1);
   //  Round up condition
   if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
-    f += 1<<(6+E);
-    if(f & (1<<(11+E))){E++;}//If carry occurs, renormalize
-    if(E>3){ans = ans | 0b01110000; return ans;}//check infinity
+    f += 1<<(GbitIndex);
+    if(f & (1<<(11+E))){E++;if(denorm){denorm=0;}GbitIndex++;}//If carry occurs, renormalize
+    if(E>3){ans = 0b01110000; if(minus) ans+=(1<<7); return ans;}//check infinity
   }
 
   //
@@ -79,8 +79,8 @@ tinyfp fixp2tinyfp(fixp f)
   int exp = (E+BIAS)<<4;
   if(denorm==1){exp=0;}
   ans += exp;
-  int frac = (f & ((1<<(9+E)) + (1<<(8+E)) + (1<<(7+E)) + (1<<(6+E))));
-  frac = frac>>(6+E);
+  int frac = (f & ((1<<(GbitIndex+3)) + (1<<(GbitIndex+2)) + (1<<(GbitIndex+1)) + (1<<(GbitIndex))));
+  frac = frac>>(GbitIndex);
   ans += frac;
 
   //check sign bit
@@ -205,6 +205,9 @@ tinyfp float2tinyfp(float f)
 
     if((Rbit != 0 && Sbit !=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
       frac+=(1<<Gbitindex);
+      if(frac & (1<<(Gbitindex+4))){
+        ans+=(1<<4);
+      }
     }
 
     for(int i=3;i>-1;i--){
