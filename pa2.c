@@ -178,7 +178,10 @@ tinyfp float2tinyfp(float f)
   
   if(exp>124){
     if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
-      F.bit += (1<<Gbitindex);}
+      F.bit += (1<<Gbitindex);
+      frac+=(1<<23);
+      frac += (1<<Gbitindex);
+    }
   }
     int newExp=(F.bit>>(Gbitindex+4));
     if(newExp!=exp)Gbitindex++;
@@ -223,7 +226,7 @@ tinyfp float2tinyfp(float f)
   //norm to norm
 
   ans+=((exp-124)<<4);
-  ans += (((F.bit>>(Gbitindex+3))&1)<<3)+(((F.bit>>(Gbitindex+2))&1)<<2)+(((F.bit>>(Gbitindex+1))&1)<<1)+((F.bit>>Gbitindex)&1);
+  ans += (((frac>>(Gbitindex+3))&1)<<3)+(((frac>>(Gbitindex+2))&1)<<2)+(((frac>>(Gbitindex+1))&1)<<1)+((frac>>Gbitindex)&1);
  
 
 
