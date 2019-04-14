@@ -175,12 +175,14 @@ tinyfp float2tinyfp(float f)
   int Rbit= (frac>>(Gbitindex-1)) & 1;
   int Sbit= (frac & (0x0003ffff));
   int exp =(F.bit>>(Gbitindex+4));
-    
-  if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
-    F.bit += (1<<Gbitindex);}
-  int newExp=(F.bit>>(Gbitindex+4));
-  if(newExp!=exp)Gbitindex++;
   
+  if(exp>124){
+    if((Rbit!=0 && Sbit!=0) || (Gbit!=0 && Rbit!=0 && Sbit==0)){
+      F.bit += (1<<Gbitindex);}
+  }
+    int newExp=(F.bit>>(Gbitindex+4));
+    if(newExp!=exp)Gbitindex++;
+
 
   //trim out invalid exp range
   exp=newExp;
@@ -198,7 +200,7 @@ tinyfp float2tinyfp(float f)
   //norm to denorm 
   if(exp<=124){
     frac += (1<<23);
-    //round again
+    //round
     Gbitindex += (125-exp);//-2-(exp-127)
     Gbit= (frac>>Gbitindex)&1;
     Rbit= (frac>>(Gbitindex-1))&1;
